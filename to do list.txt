@@ -1,0 +1,18 @@
+working health bars for player and enemy
+variety in attacks between player and enemy
+map:Grid/Simple but clear/diffrent looks for diffrent states
+campaigns like dnd
+fleshed out stats
+items and armor that buff players stats
+save states
+boss class- special abilites, beefy stats, and names
+wait times in combat to make it a little bit more dramatic
+Rewards
+Npc/Taverns
+Good Dialogue
+Future:2 Enemies at once/two players at once
+expand on enemies, make class means something
+rest comes with camps, lower quality camps means higher chance of monster encounter
+Starting Items
+Xp system - higher amount of xp to level up as level gets higher
+
