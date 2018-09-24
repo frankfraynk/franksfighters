@@ -124,20 +124,10 @@ Inventory=[smlcmp]
 def inventory():
     print("Here is a list of the items in your inventory.")
     l=len(Inventory)
-    if l == 0:
-        print("You have no items in your inventory")
-        start1()
-    elif l ==1:
-        print(Inventory[0].name)
-    elif l == 2:
-        print(Inventory[0].name+Inventory[1].name)
-    elif l == 3:
-        print(Inventory[0].name+ Inventory[1].name +Inventory[2].name)
-    elif l == 4:
-        print(Inventory[0].name+Inventory[1].name +Inventory[2].name +Inventory[3].name)
-    elif l == 5:
-        print(Inventory[0].name+Inventory[1].name +Inventory[2].name +Inventory[3].name+ Inventory[4].name)
-
+    s=0
+    while s <l:
+        print(Inventory[s].name)
+        s=s+1
     Item_use= input()
     if Item_use == smlcmp.name:
         Inventory.remove(smlcmp)
