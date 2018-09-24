@@ -1,5 +1,6 @@
 import random
 import os
+import time
 clear = lambda: os.system('cls')
 class Player: #Create a class for the player with different attributes
     def __init__(self, name):
@@ -8,11 +9,11 @@ class Player: #Create a class for the player with different attributes
         self.health = self.maxhealth
         self.armor = 4
         self.attack = 10
-        self.gold = 0
+        self.gold = 100
         self.pots = 0
         self.speed = 4
 healthDashes = 20
-def do_health():
+def playerhealth():
   dashConvert = int(PlayerIG.maxhealth/healthDashes)
   currentDashes = int(PlayerIG.health/dashConvert)
   remainingHealth = healthDashes - currentDashes
@@ -25,11 +26,12 @@ def do_health():
   print("         " + percent)
 
 class Enemy:
-    def __init__(self,lvl,dmg,dtype,name):
+    def __init__(self,lvl,dmg,dtype,name,goldgain):
         self.lvl = lvl
         self.dmg = dmg
         self.dtype = dtype
         self.name = name
+        self.goldgain= goldgain
         self.speed = random.randint(2,3)
         self.size = 2
         self.health = 20
@@ -68,6 +70,9 @@ def Fight(enemy):
     if PlayerIG.health >= 0:
         print('Congratulations, you beat the ' + enemy.name + "! Don't you feel proud?")
         PlayerIG.health = PlayerIG.maxhealth
+        PlayerIG.gold=PlayerIG.gold+enemy.goldgain
+        time.sleep(2)
+        start1()
     else:
         print('The ' + enemy.name + " killed you. Sorry about that!")
 
@@ -75,7 +80,7 @@ def Fight(enemy):
 
 def Prefight():#Decids what ememy to fight
     global enemy
-    ZombieIG = Enemy(3, random.randint(1, 6), 'Slam', 'Zombie')
+    ZombieIG = Enemy(3, random.randint(1, 6), 'Slam', 'Zombie',50)
     enemynum = random.randint(1,2)
     if enemynum == 1:
         enemy=ZombieIG
@@ -85,22 +90,94 @@ def Prefight():#Decids what ememy to fight
     Fight(enemy)
 
 
+class items :
+    def __init__(self,desc, name, price,dmg,lvl):
+        self.desc=desc
+        self.name = name
+        self.price = price
+        self.dmg =dmg
+        self.lvl= lvl
+    def Store():
+        playerhealth()
+        print(PlayerIG.gold)
+        if PlayerIG.gold < 20:
+            print("You dont have enough money for my wares!, Get out of here")
+            time.sleep(2)
+            start1()
+        else:
+            print("This is what I got up for sale, see anything you like?")
+            print("Item: "+ hmr.name + " Description:"+hmr.desc)
+            buy=input()
+            if buy == hmr.name:
+                PlayerIG.gold=PlayerIG.gold-hmr.price
+                Inventory.append(hmr)
+                print(PlayerIG.gold)
+                start1()
+            else:
+                start1()
 
-def Store():#Still needs to be made
-    pass
+
+hmr=items(desc="This hammer heavy blow is sure to leave the enemy mangled", name="Hammer", price= 50,dmg = 6,lvl=1)
+nothmr = items(desc="This hammer heavy blow is sure to leave the enemy mangled", name="Hammer", price=50, dmg=6,lvl=7)
+smlcmp = items(desc="This hammer heavy blow is sure to leave the enemy mangled", name="Small Camp", price=50, dmg=6,lvl=7)
+Inventory=[smlcmp]
+def inventory():
+    print("Here is a list of the items in your inventory.")
+    l=len(Inventory)
+    if l == 0:
+        print("You have no items in your inventory")
+        start1()
+    elif l ==1:
+        print(Inventory[0].name)
+    elif l == 2:
+        print(Inventory[0].name+Inventory[1].name)
+    elif l == 3:
+        print(Inventory[0].name+ Inventory[1].name +Inventory[2].name)
+    elif l == 4:
+        print(Inventory[0].name+Inventory[1].name +Inventory[2].name +Inventory[3].name)
+    elif l == 5:
+        print(Inventory[0].name+Inventory[1].name +Inventory[2].name +Inventory[3].name+ Inventory[4].name)
+
+    Item_use= input()
+    if Item_use == smlcmp.name:
+        Inventory.remove(smlcmp)
+        PlayerIG.health= PlayerIG.maxhealth
+        count = 8
+        while count > 0:
+            print(str(count)+" hours left" )
+            count = count - 1
+            time.sleep(1)
+            encounter= random.randint(0,8)
+            if encounter == 1:
+                print("You were woken up during the middle of the night by an enemy")
+                Prefight()
+            else:
+                pass
+        start1()
+    else:
+        start1()
+
+
+
+
+
+
+
 
 def start1():#Shows the player his stats
     clear()
-    do_health()
+    playerhealth()
     print("Name: " + PlayerIG.name + "\nGold: " + str(PlayerIG.gold)+ "\nPotions: " + str(PlayerIG.pots) + "\nAttack: " + str(PlayerIG.attack))
-    option = input("1.) Fight\n2.) Store\n3.) Load\n4.)Exit\n")
+    option = input("1.) Fight\n2.) Store\n3.) Inventory\n4.) Load\n5.)Exit\n")
     if option == "1":
         Prefight()
     elif option == "2":
-        Store()
+        items.Store()
     elif option == "3":
+        inventory()
+    elif option == "4":
         pass
-    elif option =="4":
+    elif option =="5":
         exit()
     else:
         start1()
